@@ -61,11 +61,12 @@ class AuthController extends GetxController {
   }
 
   Future<void> logout() async {
-    try {
-      await Storage().clearUserData();
-      Get.offAndToNamed('/login');
-    } catch (e) {
-      _dialog.show_Dialog(Get.context!, "Thank you", "Please support us");
-    }
+    _global.resetButton();
+    await Storage().clearUserData();
+    var tokencheck =await Storage().getAuthToken();
+    print("token logout = $tokencheck" );
+    Get.offAndToNamed('/login');
+    _dialog.show_Dialog(Get.context!, "Thank you", "Please support us");
+    
   }
 }

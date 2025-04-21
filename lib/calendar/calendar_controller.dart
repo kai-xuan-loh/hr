@@ -12,7 +12,7 @@ class CalendarController extends GetxController {
   final GlobalOverlay _global = Get.find();
 
   var isLoading = false.obs;
-  // var eventsList = <Events>[].obs;
+  var eventsList = <Events>[].obs;
   var eventList = <Event>[].obs;
 
 
@@ -27,12 +27,14 @@ class CalendarController extends GetxController {
 
     try {
       _global.toggleButton();
-      // EventsResponse eventsresponse = await ApiService(dioClient).getEvents();
+      EventsResponse eventsresponse = await ApiService(dioClient).getEvents();
       EventResponse eventresponse = await ApiService(dioClient).getEvent();
       print("Event api: ${eventresponse.eventList[0].event_name}");
 
-      // eventsList.assignAll(eventsresponse.eventsList);
+      eventsList.assignAll(eventsresponse.eventList);
       eventList.assignAll(eventresponse.eventList);
+      _global.resetButton();
+
     } catch (e) {
       print("Failed to fetch events api: $e");
       _global.resetButton();
